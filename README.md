@@ -1,6 +1,6 @@
 # Inverter Drive Simulator
 
-The **Inverter Drive Simulator** is a GTK+ 4.0-based application developed in Code::Blocks with MSYS2 on Windows, designed to simulate a variable frequency drive (VFD) controlling an induction motor. It provides a graphical user interface (GUI) for configuring motor and drive parameters, simulating input signals, monitoring motor behavior, injecting faults, and visualizing real-time plots. The application uses a dark theme for improved visibility and is structured to mimic real-world VFD operations with simplified models for educational purposes.
+The **Inverter Drive Simulator** is a desktop app, written to simulate a variable frequency drive (VFD) controlling an induction motor. It provides a user interface for configuring motor and drive parameters, simulating input signals, monitoring motor behavior, injecting faults, and visualizing real-time plots. 
 
 ## Application Structure
 
