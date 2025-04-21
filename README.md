@@ -1,6 +1,6 @@
 # Inverter Drive Simulator
 
-The **Inverter Drive Simulator** is a desktop app, written to simulate a variable frequency drive (VFD) controlling an induction motor. It provides a user interface for configuring motor and drive parameters, simulating input signals, monitoring motor behavior, injecting faults, and visualizing real-time plots. 
+This is a desktop app, written to simulate a variable frequency drive (VFD) controlling an induction motor. It provides a user interface for configuring motor and drive parameters, simulating input signals, monitoring motor behavior, injecting faults, and visualizing real-time plots. 
 
 ## Application Structure
 
