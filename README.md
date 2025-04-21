@@ -32,7 +32,9 @@ The dark theme ensures a dark background with light text and bright plot colors 
 
 ## Simulation Logic
 
-The simulation runs in a timed loop (50 ms interval) triggered by the "Run" button and managed in `gui.c` (`update_simulation` function). Key steps include:
+The simulation runs in a timed loop (50 ms interval) triggered by the "Run" button and managed in `gui.c` (`update_simulation` function). 
+
+Key steps include:
 
 1. **Input Collection**:
 
