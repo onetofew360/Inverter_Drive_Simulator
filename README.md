@@ -162,5 +162,5 @@ The application handles the following user-configurable parameters, validated in
   - Manual injection via checkboxes.
   - Faults stop simulation and display status (e.g., "Fault: Overcurrent").
 - **Control Panel**:
-  - Mimics a VFD panel with Run, Stop, Reset, Forward/Reverse buttons.
+  - Replicates a VFD panel with Run, Stop, Reset, Forward/Reverse buttons.
   - Keypad entry simulates parameter editing (limited to voltage).
