@@ -1,4 +1,4 @@
-# Inverter Drive Simulator: Functional and Simulation Notes
+# Inverter Drive Simulator
 
 ## Overview
 
