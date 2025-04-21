@@ -28,9 +28,9 @@ The GUI is divided into two main sections within a `GtkGrid`:
   - **Fault Inputs**: Checkboxes for manual fault injection (overcurrent, undervoltage, overtemperature).
   - **Output Labels**: Show calculated V_L-L, current, speed, torque, frequency, and fault/error messages.
 - **Right Column (4)**:
-  - **Plot Area**: Five stacked plots (voltage, current, frequency, torque, speed) rendered with Cairo, each with a grid, waveform, and label. Currently, all use a placeholder voltage waveform.
+  - **Plot Area**: Five stacked plots (voltage, current, frequency, torque, speed) rendered with Cairo, each with a grid, waveform, and label. 
 
-The window size is 1200x800 pixels, with the plot area set to 600x600 pixels for vertical stacking of graphs. The dark theme ensures a dark background with light text and bright plot colors (blue waveform, light gray grid).
+The dark theme ensures a dark background with light text and bright plot colors (blue waveform, light gray grid).
 
 ## Simulation Logic
 
@@ -176,9 +176,3 @@ The application handles the following user-configurable parameters, validated in
 - **PWM Waveform**: Sinusoidal approximation; true PWM requires carrier wave modulation.
 - **Performance**: Multiple plots may slow rendering on low-end systems.
 
-## Usage Notes
-
-- **Testing**: Use inputs like 600 V, 60 Hz, 1800 RPM, 50% speed ref to verify simulation. Inject faults and reset to test fault handling.
-- **Console**: `g_print` statements (e.g., "Run button clicked") aid debugging. Remove for production.
-- **Dark Theme**: Ensures visibility with dark background and bright plot colors.
-- **Window Layout**: Controls on the left, plots on the right for intuitive operation.
