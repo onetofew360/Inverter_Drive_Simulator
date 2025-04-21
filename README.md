@@ -165,4 +165,4 @@ The application handles the following user-configurable parameters, validated in
   - Replicates a VFD panel with Run, Stop, Reset, Forward/Reverse buttons.
   - Keypad entry simulates parameter editing (limited to voltage).
 
-<img src="https://github.com/KMORaza/Inverter_Drive_Simulator/blob/main/screenshot.png" alt=" " width="500" height="400">
+<img src="https://github.com/KMORaza/Inverter_Drive_Simulator/blob/main/screenshot.png" alt=" " width="600" height="450">
