@@ -143,7 +143,7 @@ The application handles the following user-configurable parameters, validated in
 - **Validation**: Invalid inputs (e.g., negative voltage, max_freq &lt; min_freq) display error messages and halt simulation.
 - **Keypad**: Currently sets rated voltage; a full menu system is planned.
 
-## Simulation Features
+## Simulation Characteristics
 
 - **Input Signals**:
   - Speed reference slider scales target frequency (`speed_ref * max_freq / 100`).
@@ -164,15 +164,3 @@ The application handles the following user-configurable parameters, validated in
 - **Control Panel**:
   - Mimics a VFD panel with Run, Stop, Reset, Forward/Reverse buttons.
   - Keypad entry simulates parameter editing (limited to voltage).
-
-## Limitations and Future Enhancements
-
-- **Plots**: Currently use a placeholder voltage waveform. Need integration with motor data for current, torque, speed, and frequency.
-- **Motor Model**: Simplified V/f control; lacks slip, rotor flux, or advanced dynamics (e.g., vector control, DTC).
-- **Control Modes**: Only V/f implemented; others are placeholders.
-- **Load**: Assumes constant torque; variable or user-defined loads are not supported.
-- **Faults**: Limited to three types; no short circuit or stall simulation.
-- **Keypad**: Updates only rated voltage; needs a full menu system.
-- **PWM Waveform**: Sinusoidal approximation; true PWM requires carrier wave modulation.
-- **Performance**: Multiple plots may slow rendering on low-end systems.
-
