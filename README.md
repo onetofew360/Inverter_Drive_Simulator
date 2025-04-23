@@ -156,7 +156,6 @@ The application handles the following user-configurable parameters, validated in
 - **Graphical Monitoring**:
   - Five plots (600x600 pixels total, 80 pixels per plot) show voltage, current, frequency, torque, and speed.
   - Placeholder: All plots use the PWM voltage waveform scaled to max values (e.g., 1.1 \* V_dc for voltage).
-  - Future: Integrate real motor data for accurate plots.
 - **Fault Handling**:
   - Automatic detection based on thresholds.
   - Manual injection via checkboxes.
