@@ -140,9 +140,6 @@ The application handles the following user-configurable parameters, validated in
 | Faults (Overcurrent, etc.) | On/Off | Off | Manual fault injection. |
 | Keypad Value | Any number | N/A | Updates rated voltage (simplified). |
 
-- **Validation**: Invalid inputs (e.g., negative voltage, max_freq &lt; min_freq) display error messages and halt simulation.
-- **Keypad**: Currently sets rated voltage; a full menu system is planned.
-
 ## Simulation Characteristics
 
 - **Input Signals**:
